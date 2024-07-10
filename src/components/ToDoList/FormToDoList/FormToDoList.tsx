@@ -1,6 +1,7 @@
 import { SET_FORM, CANCEL_EDIT, SAVE_EDIT } from "../redux/actions"
 import { useDispatch, } from "react-redux"
 import { editingID } from "../redux/serviceReducer"
+import './FormToDoList.css'
 
 export const FormToDoList = () => {
 
@@ -36,11 +37,13 @@ export const FormToDoList = () => {
     }
 
     return (
-        <form id="form-services" onSubmit={hendlerSubmit}>
+        <form id="form-services" className="form-services" onSubmit={hendlerSubmit} >
             <input type="text" placeholder="Услуга" id="text" required />
             <input type="text" placeholder="Цена" id="price" required />
-            {editingID ? <button type='button' onClick={hendlerSaveEdit}>Сохранить</button> : null}
-            {editingID ? <button type='button' onClick={hendlerCancelEdit}>Отменить</button> : <button type="submit">save</button>}
+            {editingID ? <>
+                <button type='button' onClick={hendlerSaveEdit}>Сохранить</button>
+                <button type='button' onClick={hendlerCancelEdit}>Отменить</button>
+            </> : <button type="submit">Сохранить</button>}
         </form >
     )
 }

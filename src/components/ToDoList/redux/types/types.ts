@@ -9,7 +9,7 @@ export interface IPropsItem {
 export type InitStateService = TItem[]
 
 export type TItem = {
-  text: string | undefined;
-  price: string | undefined;
-  id: number | undefined
+  text: string ;
+  price: string;
+  id: number
 }

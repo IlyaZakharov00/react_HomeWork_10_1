@@ -1,4 +1,4 @@
-import { SET_FORM, EDIT_ITEM, DELETE_ITEM, CANCEL_EDIT, SAVE_EDIT } from "./actions";
+import { SET_FORM, EDIT_ITEM, DELETE_ITEM, CANCEL_EDIT, SAVE_EDIT, SORT_LIST } from "./actions";
 import { InitStateService } from "./types/types";
 export let editingID = null;
 
@@ -21,12 +21,10 @@ export const serviceReducer = (state = initialStateService, action: any) => {
       }]
 
     case DELETE_ITEM:
-      const itemDelete = state.filter((item: any) => { item.id == action.id })[0]
-      const indexItemDelete = state.indexOf(itemDelete)
-      state.splice(indexItemDelete, 1)
+      const newState = state.filter(item => item.id !== action.id)
       inputText.value = ''
       inputPrice.value = ''
-      return [...state]
+      return [...newState]
 
     case EDIT_ITEM:
       editingID = action.id
@@ -36,8 +34,8 @@ export const serviceReducer = (state = initialStateService, action: any) => {
 
     case CANCEL_EDIT:
       editingID = null;
-      inputText.value = ''
-      inputPrice.value = ''
+      inputText.value = ' '
+      inputPrice.value = ' '
       return [...state]
 
     case SAVE_EDIT:
@@ -47,6 +45,20 @@ export const serviceReducer = (state = initialStateService, action: any) => {
       editingID = null;
       inputText.value = ''
       inputPrice.value = ''
+      return [...state]
+
+    case SORT_LIST:
+      if (action.sortOpt == 'alphabet') {
+        state.sort((firstItem, secondItem) => {
+          console.log(secondItem.text, firstItem.text)
+          return firstItem.text > secondItem.text ? 1 : -1
+        })
+      } else if (action.sortOpt == 'price') {
+        state.sort((firstItem, secondItem) => {
+          return (Number(secondItem.price) - Number(firstItem.price))
+        })
+      }
+
       return [...state]
 
     default:
